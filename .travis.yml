@@ -1,12 +1,18 @@
 language: ruby
-rvm:
-  - 2.5.3
+rvm: 2.5.3
+before_install:
+  - sudo apt-get update
+  - sudo apt-get --yes remove postgresql\*
+  - sudo apt-get install -y postgresql-11 postgresql-client-11
+  - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
+  - sudo service postgresql restart 11  
 before_script:
-  - bundle exec rake db:create --all
-  - bundle exec rake db:migrate
-script:
-  - bundle exec rake ci:tests
+  - psql --version
+  - psql -c 'CREATE DATABASE {{chess_development}};' -U postgres
+  - psql -c 'CREATE ROLE travis SUPERUSER LOGIN CREATEDB;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+script: bundle exec rake spec
 services:
   - postgresql
-notifications:
-  email: false
+addons:
+  postgresql: "11.2"
