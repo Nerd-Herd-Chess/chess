@@ -11,8 +11,7 @@
 
   <body>
     <ul class="navbar-nav">
-      <a class="nav-link" href="#">Link</a>
-      <%= link_to 'New Game', 'game_path', class: 'nav-link' %>
+      <%= link_to 'New Game', new_game_path, class: 'nav-link' %>
     </ul>
     <ul class="navbar-nav">
       <% if user_signed_in? %>

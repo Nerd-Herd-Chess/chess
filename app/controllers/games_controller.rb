@@ -9,11 +9,18 @@ class GamesController < ApplicationController
   end
 
   def create
-  
+    @game = Game.create(game_params)
+    redirect_to game_path(@game)
   end
 
   def show
-    
+    @game = Game.find(params[:id])
+  end
+
+  private
+
+  def game_params
+    params.require(:game_id).require(:player1_id, :player2_id)
   end
  
 end
