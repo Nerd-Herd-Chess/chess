@@ -1,7 +1,6 @@
-
 <%= simple_form_for @game do |f| %>
-  <% f.input :player1_id %>
-  <% f.input :player2_id %>
+  <%= f.input :player1_id %>
+  <%= f.input :player2_id %>
   <%= f.submit 'Create', class: "btn btn-primary" %>
 
   
