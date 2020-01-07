@@ -1,17 +1,13 @@
 <p>Show chess board here</p>
 <div class="chessboard">
-<% 
+<% 8.times do |row|%>
 
-8.times do |row|
-  %><div class="single_row row_<%= row %>"><% 
-  8.times do |column|
-    %><div class="single_square" data-col="<%= column %>" data-row="<%= row %>"></div><% 
-  end
-  %></div><%
-end
-
-
-
-
-%>
+ <div class="single_row row_<%= row %>">
+  <% 8.times do |column|%>
+    <div class="single_square" data-col="<%= column %>" data-row="<%= row %>">
+    
+    </div>
+  <%end%>
+ </div>
+<%end%>
 </div>
