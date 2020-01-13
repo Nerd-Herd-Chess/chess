@@ -51,20 +51,23 @@ class ChessPiece < ApplicationRecord
 
   def diagonal_obstruction?(end_x, end_y) #Not sure how to complete diagonal obstruction
     # movement: diagonal and down
-    if start_x != end_x && start_y != end_y && start_x < x_end
+    if is_diagonal?(start_x, start_y, end_x, end_y) 
+      if start_x < x_end
       #(start_x + 1).upto(end_x - 1) do |x|
         #delta_y = x - x_position
         #y = y_end > y_position ? y_position + delta_y : y_position - delta_y
         #return true if game.space_occupied?(x, y)
       #end
-    # path is diagonal and up
-    elsif start_x != end_x && start_y != end_y && start_x > end_x
+      # path is diagonal and up
+      else 
       #(x_position - 1).downto(x_end + 1) do |x|
         #delta_y = x_position - x
         #y = y_end > y_position ? y_position + delta_y : y_position - delta_y
         #return true if game.space_occupied?(x, y)
       #end
+      end   
     end
+
     false
   end
 

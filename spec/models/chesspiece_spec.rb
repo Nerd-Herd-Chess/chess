@@ -5,6 +5,36 @@ def getDefaultGame
 
 end
 
+class Point
+  attr_accessor(:x, :y)
+
+  initialize(x, y) {
+    @x = x
+    @y = y
+  }
+
+  def to_location() #A1 
+    x_axis = [ 'A', 'B', 'C', 'D', 'E', 'F']
+    return x_axis[@x] + (@y + 1)
+  end
+
+  def self.form_location(location) 
+    x = 0
+    y = 0
+
+    if (location[0] == 'A') x = 0
+    elsif (location[0] == 'B') x = 1
+    elsif (location[0] == 'C') x = 2
+    elsif (location[0] == 'D') x = 3
+
+    y = location[1].to_i - 1
+
+    return new Point(x, y))
+
+  end
+
+end
+
 RSpec.describe ChessPiece, type: :model do #(Creatated automatically when model was created)
   describe 'is_obstructed? method' do
 
@@ -12,7 +42,10 @@ RSpec.describe ChessPiece, type: :model do #(Creatated automatically when model 
       #setup game board
       #When setting up spec remember the three A: Arrange, Act and Assert
       game = getDefaultGame #Arrange
-      result = game.is_obstructed?('A6', 'C4') #Act
+      start = Point.from_location('A6')
+      end = Point.from_location('C4')
+
+      result = game.is_obstructed?(start.x, start.y, end.x, end.y) #Act
       expect(result).to be(:false) #Assert 
     end
     
