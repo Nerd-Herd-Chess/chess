@@ -1,17 +1,26 @@
+<script src="https://kit.fontawesome.com/5fa003b277.js" crossorigin="anonymous"></script>
+
 <p>Show chess board here</p>
 <div class="chessboard">
-<% 
-
-8.times do |row|
-  %><div class="single_row row_<%= row %>"><% 
-  8.times do |column|
-    %><div class="single_square" data-col="<%= column %>" data-row="<%= row %>"></div><% 
-  end
-  %></div><%
-end
-
-
-
-
-%>
+<% 8.times do |row|
+  y_axis = [8, 7, 6, 5, 4, 3, 2, 1]
+  row = y_axis[row]%>
+  
+ <div class="single_row row_<%= row %>">
+  <% 8.times do |column|
+    x_axis = ["A", "B", "C", "D", "E", "F", "G", "H"]
+    column_letter = x_axis[column] %>
+    <div class="single_square" data-col="<%= column_letter %>" data-row="<%= row %>">
+     <% 
+        # piece = game.chess_pieces.find_by game_id: 1, position_x: column, position_y: row
+        # piece_color = piece["color"]
+        # piece_type = piece["type"] 
+        piece_color = "black"
+        piece_type = "King"
+        %>
+        <%=raw render_piece(piece_color, piece_type) %>
+    </div>
+  <%end%>
+ </div>
+<%end%>
 </div>
