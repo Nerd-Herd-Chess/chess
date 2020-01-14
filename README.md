@@ -40,9 +40,13 @@ Save the code by pushing it to GitHub and showcase the application in production
 ## Team members 
 
 Dessy Owiti
+
 Olivia Goehrig
+
 Brandon Sullivan 
-Rebeca Arroyo 
+
+Rebeca Arroyo
+ 
 Genevieve Bell  
 
 
