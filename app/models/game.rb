@@ -9,29 +9,16 @@ class Game < ApplicationRecord
     return false
   end
 
-  #checking path
-  def is_horizontal?(start_y, end_y)
-    return (start_y==end_y) 
-  end
-
-  def is_vertical?(start_x, end_x)
-    return (start_x==end_x) 
-  end
-
-  def is_diagonal?(start_x, start_y, end_x, end_y)
-    return (start_x != end_x && start_y != end_y)
-  end
-
   # Code to handle horizontal obstruction
   def horizontal_obstruction?(start_x,start_y,end_x,end_y)
     # movement: left to right
-    if is_horizontal?(start_y, end_y) && start_x < end_x
+    if start_y == end_y && start_x < end_x
       (start_x + 1).upto(end_x - 1) do |x|
         y = start_y
         return true if @game.space_occupied?(x, y) #see game.rb model file
       end
     # movement: right to left
-    elsif is_horizontal?(start_y, end_y) && start_x > end_x
+    elsif start_y == end_y && start_x > end_x
       (start_x - 1).downto(end_x + 1) do |x|
         y = start_y
         return true if @game.space_occupied?(x, y)
@@ -43,49 +30,47 @@ class Game < ApplicationRecord
   # Code to handle vertical obstruction
   def vertical_obstruction?(start_x, start_y, end_x, end_y)
     # movement: up
-    if is_vertical?(start_x, end_x) && start_y < end_y
+    if start_x == end_x && start_y < end_y
       (start_y + 1).upto(end_y - 1) do |y|
         x = start_x
-        return true if @game.space_occupied?(x, y)
+        return true if space_occupied?(x, y)
       end
     # movement: down
-    elsif is_vertical?(start_x, end_x) && start_y > end_y
+    elsif start_x == end_x && start_y > end_y
       (start_y - 1).downto(end_y + 1) do |y|
         x = start_x
-        return true if @game.space_occupied?(x, y)
+        return true if space_occupied?(x, y)
       end
     end
     false
   end
 
 
-  def diagonal_obstruction?(start_x,start_y,end_x,end_y) #Not sure how to complete diagonal obstruction
-    if end_x > start_x and end_y > start_y then
-      # we are in QI
-      (start_y..end_y).each do |y|
-        (start_x..end_x).each do |x|
-          return true if game.space_occupied?(x,y)
-        end
+  def diagonal_obstruction?(start_x,start_y,end_x,end_y)
+    slope = (end_y - start_y) / (end_x - start_x)
+    if slope.abs == 1.0 && end_x > start_x
+      (start_x + 1).downto(end_x - 1) do |x|
+        delta_y = start_x - x
+        y = end_y > start_y ? start_y + delta_y : start_y - delta_y
+        return true if space_occupied?(x,y)
       end
-    elsif end_x < start_x and end_y > start_y then
-      # QII
-      (start_y..end_y) 
-        (end_x..start_x)
-    elsif end_x < start_x and end_y < start_y then
-      # QII
-    else
-      # Q4, end_x > start_x and end_y < start_y
-
     end
+    if slope.abs == 1.0 && end_x < start_x
+      (start_x + 1).upto(end_x - 1) do |x|
+        delta_y = x - start_x
+        y = end_y > start_y ? start_y + delta_y : start_y - delta_y
+        return true if space_occupied?(x,y)
+      end
+    end
+    false
   end
 
   def check_path(start_x,start_y,end_x,end_y)
     return 'horizontal' if start_y == end_y
     return 'vertical' if start_x == end_x
-    dx = start_x - end_x
-    dy = start_y - end_y
-    return 'diagonal' if dx.abs == dy.abs
-    return 'invalid'
+    slope = (end_y - start_y).to_f / (end_x - start_x).to_f
+    return 'diagonal' if slope.abs == 1.0
+    return false
   end
 
   def is_obstructed?(piece_loc, destination)
@@ -101,10 +86,6 @@ class Game < ApplicationRecord
     return diagonal_obstruction?(start_x, start_y, end_x, end_y) if path == 'diagonal'
 
     false
-  end
-
-  def invalid_move
-    raise StandardError.new "Invalid Move"
   end
 
   def fill_for_testing
