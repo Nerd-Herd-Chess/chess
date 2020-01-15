@@ -1,1 +1,30 @@
 @import "bootstrap";
+
+body {
+  height: 100%;
+  background: image_url('background.png');
+  background-repeat: no-repeat;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.navbar {
+  background-color: white;
+  font-family: 'Open Sans', sans-serif;
+}
+ 
+h1 {
+  color: black;
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  position: fixed;
+  bottom: 0;
+}
+

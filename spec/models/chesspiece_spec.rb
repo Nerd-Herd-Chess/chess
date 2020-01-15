@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 def getDefaultGame
-  return new Game()
+  return Game.create
 
 end
 
