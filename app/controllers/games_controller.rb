@@ -14,7 +14,16 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find(params[:id])
+    # @game = Game.find(params[:id])
+    get_sample_game
+  end
+
+  def get_sample_game
+    @game = Game.new
+    @game.chess_pieces.create(position_x = 0, postion_y = 0, type = "King", color = "black")
+    @game.chess_pieces.create(position_x = 1, postion_y = 1, type = "Pawn", color = "black")
+    @game.chess_pieces.create(position_x = 7, postion_y = 7, type = "Rook", color = "black")
+    return @game
   end
 
   private
