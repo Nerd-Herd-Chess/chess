@@ -1,45 +1,72 @@
-// Place all the styles related to the games controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+/* line 4, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
 .single_square {
-  width: 12%;
+  width: 10%;
   height: 0px;
   display: inline-block;
   background-color: black;
   padding-bottom: 12%;
+  position: relative;
 }
+
+/* line 11, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
 .chessboard .single_row:nth-child(odd) .single_square:nth-child(odd) {
   background-color: white;
 }
+
+/* line 14, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
 .chessboard .single_row:nth-child(even) .single_square:nth-child(even) {
   background-color: white;
 }
 
+/* line 18, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
 .chessboard {
   border: 3px solid black;
   width: 40%;
   display: block;
   margin-left: 30%;
   text-align: center;
-
 }
+
+/* line 26, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
 .single_row {
   margin-bottom: -7px;
   margin-left: -2%;
   margin-right: -2%;
 }
-@media only screen and (max-width: 650px)  {
+
+@media only screen and (max-width: 650px) {
+  /* line 32, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
   .chessboard {
     width: 60%;
     margin-left: 20%;
   }
-
- 
 }
+/* line 39, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
 i.piece-color-black {
-    text-shadow: 0px 0px 3px white;
+  text-shadow: 0px 0px 3px white;
 }
 
+/* line 43, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
 i.piece-color-white {
-    text-shadow: 0px 0px 3px black;
+  text-shadow: 0px 0px 3px black;
+}
+.single_square i {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 40px;
+    margin: auto;
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+@media only screen and (max-width: 1900px) {
+  /* line 32, /vagrant/nerd-herd-chess/app/assets/stylesheets/games.scss */
+  .singe_square i {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
 }
