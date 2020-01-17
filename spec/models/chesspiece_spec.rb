@@ -52,6 +52,7 @@ RSpec.describe ChessPiece, type: :model do #(Creatated automatically when model 
       #When setting up spec remember the three A: Arrange, Act and Assert
       game1 = Game.create
       game1.fill_for_testing
+      game1.print_board
       piece1 = Pawn.create(position_x: 1, position_y: 0)
       result = expect(piece1.is_obstructed?(4, 0)).to be true
     end

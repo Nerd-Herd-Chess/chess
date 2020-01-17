@@ -64,6 +64,29 @@ class ChessPiece < ApplicationRecord
 
     false
   end  
+  
+
+  def get_piece_type
+    types = [
+      :white_rook,
+      :white_knight,
+      :white_bishop,
+      :white_queen,
+      :white_king,
+      :white_pawn,
+      :black_rook,
+      :black_knight,
+      :black_bishop,
+      :black_queen,
+      :black_king,
+      :black_pawn,
+    ]
+    n = self.type
+    c = self.color
+    n = "#{c.downcase}_#{n.downcase}"
+    pid = types.index(n.to_sym)
+    return pid
+  end
 
   def can_be_blocked?(color)
     checked_king = game.find_king(color)
