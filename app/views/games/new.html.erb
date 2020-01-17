@@ -1,8 +1,15 @@
-<%= simple_form_for @game do |f| %>
-  <%= f.input :player1_id %>
-  <%= f.input :player2_id %>
-  <%= f.submit 'Create', class: "btn btn-primary" %>
+<div class="booyah-box col-10 offset-1">
 
-  
-
+  <h1>Enter your info to start a game.</h1>
+  <br />
+    <%= simple_form_for @game do |f| %>
+      <%= f.input :player1_id %>
+      <br />
+      <%= f.input :player2_id %>
+      <br />
+      <br />
+      <%= f.submit 'Start Game', class: "btn btn-secondary" %>
 <% end %>
+</div>
+
+
