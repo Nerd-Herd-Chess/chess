@@ -66,10 +66,12 @@ group :development, :test do
   gem "factory_bot_rails"
   gem 'coveralls', require: false
   gem 'cucumber-rails', require: false
+  gem 'pry'
 end
 gem 'popper_js', '~> 1.11.1'
 gem 'bootstrap', '4.0.0.alpha6'
 gem 'devise'
+
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'

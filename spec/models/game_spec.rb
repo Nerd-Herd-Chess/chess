@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Game, type: :model do
   let!(:game) { FactoryBot.create(:game) }
   let!(:chess_piece) { FactoryBot.create(:chess_piece, position_x: 1, position_y: 1, game_id: game.id)}
-
+ 
   describe 'space_occupied?' do
     it 'returns true if there is a piece on the provided space' do
       expect(game.space_occupied?(1, 1)).to be true

@@ -1,16 +1,12 @@
 <script src="https://kit.fontawesome.com/5fa003b277.js" crossorigin="anonymous"></script>
 <%= current_game = @game.id %>
-<p>Show chess board here</p>
 <div class="chessboard">
-<% 8.times do |row|
-  y_axis = [8, 7, 6, 5, 4, 3, 2, 1]
-  row = y_axis[row]%>
+<% (7.downto(0)).each do |row| %>
+  
   
  <div class="single_row row_<%= row %>">
-  <% 8.times do |column|
-    x_axis = ["A", "B", "C", "D", "E", "F", "G", "H"]
-    column_letter = x_axis[column] %>
-    <div class="single_square" data-col="<%= column_letter %>" data-row="<%= row %>">
+  <% 8.times do |column| %>
+    <div class="single_square" data-col="<%= column %>" data-row="<%= row %>">
       <%=raw render_piece(current_game, column, row) %>
     </div>
   <%end%>
