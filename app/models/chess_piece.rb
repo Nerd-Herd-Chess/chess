@@ -3,89 +3,90 @@ class ChessPiece < ApplicationRecord
   belongs_to :game
   # belongs_to :user
 
-  #checking path
-  def is_horizontal?(start_y, end_y)
-    return (start_y==end_y) 
-  end
-
-  def is_vertical?(start_x, end_x)
-    return (start_x==end_x) 
-  end
-
-  def is_diagonal?(start_x, start_y, end_x, end_y)
-    return (start_x != end_x && start_y != end_y)
-  end
-
-  # Code to handle horizontal obstruction
-  def horizontal_obstruction?(start_x, start_y, end_x, end_y)
-    # movement: left to right
-    if is_horizontal?(start_y, end_y) && start_x < end_x
-      (start_x + 1).upto(end_x - 1) do |x|
-        return true if game.space_occupied?(x, start_y) #see game.rb model file
-      end
-    # movement: right to left
-    elsif is_horizontal?(start_y, end_y) && start_x > end_x
-      (start_x - 1).downto(end_x + 1) do |x|
-        return true if game.space_occupied?(x, start_y)
-      end
-    end
-    false #returns false if there is no obstruction
-  end
-
-  # Code to handle vertical obstruction
-  def vertical_obstruction?(end_x, end_y)
-    # movement: up
-    if is_vertical?(start_x, end_x) && start_y < y_end
-      (start_y + 1).upto(end_y - 1) do |y|
-        return true if game.space_occupied?(start_x, y)
-      end
-    # movement: down
-    elsif is_vertical?(start_x, end_x) && start_y > end_y
-      (y_position - 1).downto(y_end + 1) do |y|
-        return true if game.space_occupied?(start_x, y)
-      end
-    end
+  def check_path(position_x,position_y,end_x,end_y)
+    return 'horizontal' if position_y == end_y
+    return 'vertical' if position_x == end_x
+    slope = (end_y - position_y).to_i / (end_x - position_x).to_i
+    return 'diagonal' if slope.abs == 1.0
     false
   end
 
+  def is_obstructed?(end_x,end_y)
+    path = check_path(position_x, position_y, end_x, end_y)
 
-  def diagonal_obstruction?(end_x, end_y) #Not sure how to complete diagonal obstruction
-    # movement: diagonal and down
-    if is_diagonal?(start_x, start_y, end_x, end_y) 
-      if start_x < x_end
-      #(start_x + 1).upto(end_x - 1) do |x|
-        #delta_y = x - x_position
-        #y = y_end > y_position ? y_position + delta_y : y_position - delta_y
-        #return true if game.space_occupied?(x, y)
-      #end
-      # path is diagonal and up
-      else 
-      #(x_position - 1).downto(x_end + 1) do |x|
-        #delta_y = x_position - x
-        #y = y_end > y_position ? y_position + delta_y : y_position - delta_y
-        #return true if game.space_occupied?(x, y)
-      #end
-      end   
+    # if not ['horizontal','vertical','diagonal'].include? path then
+      # raise "some error here"
+    # end
+
+    if path == 'horizontal' && position_x < end_x
+      (position_x + 1).upto(end_x - 1) do |x|
+        y = position_y
+        return true if @game.space_occupied?(x,y)
+      end
+    end
+
+    if path == 'horizontal' && position_x > end_x
+      (position_x - 1).downto(end_x + 1) do |x|
+        y = position_y
+        return true if @game.space_occupied?(x,y)
+      end
+    end
+
+    if path == 'vertical' && position_y < end_y
+      (position_y + 1).upto(end_y - 1) do |y|
+        x = position_x
+        return true if @game.space_occupied?(x, y)
+      end
+    end
+
+    if path == 'vertical' && position_y > end_y
+      (position_y - 1).downto(end_y + 1) do |y|
+        x = position_x
+        return true if @game.space_occupied?(x, y)
+      end
+    end
+    
+    if path == 'diagonal' && end_x > position_x
+      (position_x + 1).downto(end_x - 1) do |x|
+        delta_y = position_x - x
+        y = end_y > position_y ? position_y + delta_y : position_y - delta_y
+        return true if @game.space_occupied?(x,y)
+      end
+    end
+
+    if path == 'diagonal' && end_x < position_x
+      (position_x + 1).upto(end_x - 1) do |x|
+        delta_y = x - position_x
+        y = end_y > position_y ? position_y + delta_y : position_y - delta_y
+        return true if @game.space_occupied?(x,y)
+      end
     end
 
     false
-  end
+  end  
   
-  def is_obstructed?(x, y)
-    x_end = x
-    y_end = y
-    path = check_path(x_position, y_position, x_end, y_end)
-    return horizontal_obstruction?(x_end, y_end) if path == 'horizontal'
 
-    return vertical_obstruction(x_end, y_end) if path == 'vertical'
-
-    return diagonal_obstruction(x_end, y_end) if path == 'diagonal'
-
-    false
-
+  def get_piece_type
+    types = [
+      :white_rook,
+      :white_knight,
+      :white_bishop,
+      :white_queen,
+      :white_king,
+      :white_pawn,
+      :black_rook,
+      :black_knight,
+      :black_bishop,
+      :black_queen,
+      :black_king,
+      :black_pawn,
+    ]
+    n = self.type
+    c = self.color
+    n = "#{c.downcase}_#{n.downcase}"
+    pid = types.index(n.to_sym)
+    return pid
   end
-
-
 
   def can_be_blocked?(color)
     checked_king = game.find_king(color)
@@ -100,8 +101,6 @@ class ChessPiece < ApplicationRecord
     false
   end
 
-
-
   def move_causes_check?(x, y)
     state = false
     ActiveRecord::Base.transaction do
@@ -114,4 +113,3 @@ class ChessPiece < ApplicationRecord
   end
 
 end
-
