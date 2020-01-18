@@ -11,6 +11,14 @@ class ChessPiece < ApplicationRecord
     false
   end
 
+  def space_occupied?(x, y)
+    game.chess_pieces.each do |piece|
+      return true if piece.position_x == x && piece.position_y == y
+    end
+
+    return false
+  end
+
   def is_obstructed?(end_x,end_y)
     path = check_path(position_x, position_y, end_x, end_y)
 
@@ -21,28 +29,32 @@ class ChessPiece < ApplicationRecord
     if path == 'horizontal' && position_x < end_x
       (position_x + 1).upto(end_x - 1) do |x|
         y = position_y
-        return true if @game.space_occupied?(x,y)
+        #return true if @game.space_occupied?(x,y)
+        return true if space_occupied?(x,y)
       end
     end
 
     if path == 'horizontal' && position_x > end_x
       (position_x - 1).downto(end_x + 1) do |x|
         y = position_y
-        return true if @game.space_occupied?(x,y)
+        #return true if @game.space_occupied?(x,y)
+        return true if space_occupied?(x,y)
       end
     end
 
     if path == 'vertical' && position_y < end_y
       (position_y + 1).upto(end_y - 1) do |y|
         x = position_x
-        return true if @game.space_occupied?(x, y)
+        #return true if @game.space_occupied?(x, y)
+        return true if space_occupied?(x,y)
       end
     end
 
     if path == 'vertical' && position_y > end_y
       (position_y - 1).downto(end_y + 1) do |y|
         x = position_x
-        return true if @game.space_occupied?(x, y)
+        #return true if @game.space_occupied?(x, y)
+        return true if space_occupied?(x,y)
       end
     end
     
@@ -50,7 +62,8 @@ class ChessPiece < ApplicationRecord
       (position_x + 1).downto(end_x - 1) do |x|
         delta_y = position_x - x
         y = end_y > position_y ? position_y + delta_y : position_y - delta_y
-        return true if @game.space_occupied?(x,y)
+        #return true if @game.space_occupied?(x,y)
+        return true if space_occupied?(x,y)
       end
     end
 
@@ -58,7 +71,8 @@ class ChessPiece < ApplicationRecord
       (position_x + 1).upto(end_x - 1) do |x|
         delta_y = x - position_x
         y = end_y > position_y ? position_y + delta_y : position_y - delta_y
-        return true if @game.space_occupied?(x,y)
+        #return true if @game.space_occupied?(x,y)
+        return true if space_occupied?(x,y)
       end
     end
 
