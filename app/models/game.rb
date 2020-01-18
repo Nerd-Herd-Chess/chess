@@ -9,6 +9,29 @@ class Game < ApplicationRecord
     return false
   end
 
+  def set_for_testing
+    8.times do |i| 
+     chess_pieces.create(position_x: i, position_y: 1, type: "Pawn", color: "white")
+     chess_pieces.create(position_x: i, position_y: 6, type: "Pawn", color: "black")
+    end
+     chess_pieces.create(position_x: 0, position_y: 0, type: "Rook", color: "white")
+     chess_pieces.create(position_x: 1, position_y: 0, type: "Knight", color: "white")
+     chess_pieces.create(position_x: 2, position_y: 0, type: "Bishop", color: "white")
+     chess_pieces.create(position_x: 3, position_y: 0, type: "King", color: "white")
+     chess_pieces.create(position_x: 4, position_y: 0, type: "Queen", color: "white")
+     chess_pieces.create(position_x: 5, position_y: 0, type: "Bishop", color: "white")
+     chess_pieces.create(position_x: 6, position_y: 0, type: "Knight", color: "white")
+     chess_pieces.create(position_x: 7, position_y: 0, type: "Rook", color: "white")
+     chess_pieces.create(position_x: 0, position_y: 7, type: "Rook", color: "black")
+     chess_pieces.create(position_x: 1, position_y: 7, type: "Knight", color: "black")
+     chess_pieces.create(position_x: 2, position_y: 7, type: "Bishop", color: "black")
+     chess_pieces.create(position_x: 3, position_y: 7, type: "King", color: "black")
+     chess_pieces.create(position_x: 4, position_y: 7, type: "Queen", color: "black")
+     chess_pieces.create(position_x: 5, position_y: 7, type: "Bishop", color: "black")
+     chess_pieces.create(position_x: 6, position_y: 7, type: "Knight", color: "black")
+     chess_pieces.create(position_x: 7, position_y: 7, type: "Rook", color: "black")
+  end
+
   def fill_for_testing
     chess_pieces.create(type: 'Pawn', color: 'white', position_x: 0, position_y: 0, game_id: self.id)
     chess_pieces.create(type: 'Pawn', color: 'white', position_x: 0, position_y: 7, game_id: self.id)
