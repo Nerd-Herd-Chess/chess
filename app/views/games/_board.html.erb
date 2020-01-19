@@ -1,0 +1,18 @@
+<script src="https://kit.fontawesome.com/5fa003b277.js" crossorigin="anonymous"></script>
+<div class="chessboard">
+<% (7.downto(0)).each do |row| %>
+ <div class="single_row row_<%= row %>">
+  <% 8.times do |column| %>
+    <% p = get_piece(game, column, row) %>
+    <div class="single_square <%= p && piece && (p.id == piece.id) ? 'active-sq' : '' %>" data-col="<%= column %>" data-row="<%= row %>">
+      
+      <% if p then %>
+        <i onclick="window.location = '/chess_pieces/<%= p.id %>';" class="piece-color-<%= p.color %> fas fa-chess-<%= p.type.downcase%> " style='color: <%= p.color %>'></i>
+      <% else %>
+        <a href="?move=<%= "#{column},#{row}" %>">HERE</a>
+      <% end %>
+    </div>
+  <%end%>
+ </div>
+<%end%>
+</div>

@@ -44,7 +44,7 @@ RSpec.describe ChessPiece, type: :model do #(Creatated automatically when model 
       game1 = Game.create
       game1.fill_for_testing
       piece1 = Pawn.create(position_x: 0, position_y: 7, game_id: game1.id)
-      result = expect(piece1.is_obstructed?(0, 5)).to be true
+      result = expect(piece1.is_obstructed?(0, 5)).to be false
     end 
 
     it 'should return true if horizontal_obstruction' do  
