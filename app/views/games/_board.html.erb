@@ -16,3 +16,16 @@
  </div>
 <%end%>
 </div>
+<script type="text/javascript">
+  function update_board() {
+    let width = $('div.chessboard').width();
+    $('div.single_square').each(function (i,el) {
+      el = $(el);
+      el.css({float: 'left', width: width / 8 - 1});
+    });
+  }
+$(function () {
+  update_board();
+  $(window).resize(update_board);
+})
+</script>
