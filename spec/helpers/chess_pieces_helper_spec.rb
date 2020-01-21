@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 # Specs in this file have access to a helper object that includes
-# the GamesHelper. For example:
+# the ChessPiecesHelper. For example:
 #
-# describe GamesHelper do
+# describe ChessPiecesHelper do
 #   describe "string concat" do
 #     it "concats two strings with spaces" do
 #       expect(helper.concat_strings("this","that")).to eq("this that")
 #     end
 #   end
 # end
-RSpec.describe GamesHelper, type: :helper do
-  
+RSpec.describe ChessPiecesHelper, type: :helper do
+
 end

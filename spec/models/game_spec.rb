@@ -19,4 +19,18 @@ let!(:chess_piece) { FactoryBot.create(:chess_piece, position_x: 1, position_y: 
       expect(game1.space_occupied?(0, 0)).to be true
     end
   end
+
+  describe 'populating a game' do  
+    it 'should count 32 pieces' do
+      game = Game.create
+      game.set_for_testing
+      expect(game.chess_pieces.count).to eq(32)
+    end
+
+    
+
+
+
+
+  end
 end

@@ -16,6 +16,18 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    # @piece,@position = nil,nil
+    # if params[:chosen_piece] then
+    #   session[:chosen_piece] = params[:chosen_piece]
+    # end
+    # @piece = session[:chosen_piece]
+
+    #   @piece = @game.chess_pieces.find(@piece) if @piece
+    # if params[:move] then
+    #   @position = params[:move].split(',')
+      
+    #   @piece.update_attributes({position_x: @position[0], position_y: @position[1]}) if @piece
+    # end 
   end
 
   def set_starting_postions

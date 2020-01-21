@@ -1,16 +1,9 @@
 module GamesHelper
 
-  def render_piece(game, position_x, position_y)
+  def get_piece(game, position_x, position_y)
     
-    current_piece = @game.chess_pieces.find_by(position_x: position_x, position_y: position_y, game_id: game)
-    if current_piece != nil
-      color = current_piece["color"]
-      type = current_piece["type"]
-      return "<i class='piece-color-#{color} fas fa-chess-#{type.downcase}' style='color: #{color}'></i>".html_safe
-
-    else 
-      return " "
-    end
+    current_piece = game.chess_pieces.find_by(position_x: position_x, position_y: position_y, game_id: game.id)
+    return current_piece
     #piece_color = current_piece.color
     #type = current_piece.type
     

@@ -6,59 +6,91 @@ class ChessPiece < ApplicationRecord
   def check_path(position_x,position_y,end_x,end_y)
     return 'horizontal' if position_y == end_y
     return 'vertical' if position_x == end_x
-    slope = (end_y - position_y).to_i / (end_x - position_x).to_i
-    return 'diagonal' if slope.abs == 1.0
+    delta_x = (end_x - position_x).abs
+    delta_y = (end_y - position_y).abs
+    return 'diagonal' if (delta_y/delta_x) == 1.0
+    if not ['horizontal','vertical','diagonal'] then
+      return invalid_move
+    end
     false
+  end
+
+  def invalid_move
+    raise "Invalid Move"
+  end
+
+  def space_occupied?(x, y)
+    game.chess_pieces.each do |piece|
+      return true if piece.position_x == x && piece.position_y == y
+    end
+
+    return false
   end
 
   def is_obstructed?(end_x,end_y)
     path = check_path(position_x, position_y, end_x, end_y)
 
     # if not ['horizontal','vertical','diagonal'].include? path then
-      # raise "some error here"
+    #   raise "Invalid Move"
     # end
 
     if path == 'horizontal' && position_x < end_x
       (position_x + 1).upto(end_x - 1) do |x|
         y = position_y
-        return true if @game.space_occupied?(x,y)
+        return true if space_occupied?(x,y)
       end
     end
 
     if path == 'horizontal' && position_x > end_x
       (position_x - 1).downto(end_x + 1) do |x|
         y = position_y
-        return true if @game.space_occupied?(x,y)
+        return true if space_occupied?(x,y)
       end
     end
 
     if path == 'vertical' && position_y < end_y
       (position_y + 1).upto(end_y - 1) do |y|
         x = position_x
-        return true if @game.space_occupied?(x, y)
+        return true if space_occupied?(x,y)
       end
     end
 
     if path == 'vertical' && position_y > end_y
       (position_y - 1).downto(end_y + 1) do |y|
         x = position_x
-        return true if @game.space_occupied?(x, y)
+        return true if space_occupied?(x,y)
       end
     end
     
-    if path == 'diagonal' && end_x > position_x
-      (position_x + 1).downto(end_x - 1) do |x|
-        delta_y = position_x - x
-        y = end_y > position_y ? position_y + delta_y : position_y - delta_y
-        return true if @game.space_occupied?(x,y)
+    if path == 'diagonal' && end_x > position_x # end greater than
+      (position_x + 1).upto(end_x - 1) do |x|
+        # delta_y = position_x - x
+        # y = end_y > position_y ? position_y + delta_y : position_y - delta_y
+        if end_y > position_y
+          (position_y + 1).upto(end_y - 1) do |y|
+            return true if space_occupied?(x,y)
+          end
+        end
+        if end_y < position_y
+          (position_y - 1).upto(end_y + 1) do |y|
+            return true if space_occupied?(x,y)
+          end
+        end
       end
     end
 
-    if path == 'diagonal' && end_x < position_x
-      (position_x + 1).upto(end_x - 1) do |x|
-        delta_y = x - position_x
-        y = end_y > position_y ? position_y + delta_y : position_y - delta_y
-        return true if @game.space_occupied?(x,y)
+    if path == 'diagonal' && end_x < position_x # end less than
+      (position_x - 1).downto(end_x + 1) do |x|
+        if end_y > position_y
+          (position_y + 1).upto(end_y - 1) do |y|
+            return true if space_occupied?(x,y)
+          end
+        end
+        if end_y < position_y
+          (position_y - 1).upto(end_y + 1) do |y|
+            return true if space_occupied?(x,y)
+          end
+        end
       end
     end
 

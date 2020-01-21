@@ -1,15 +1,1 @@
-<script src="https://kit.fontawesome.com/5fa003b277.js" crossorigin="anonymous"></script>
-<%= current_game = @game.id %>
-<div class="chessboard">
-<% (7.downto(0)).each do |row| %>
-  
-  
- <div class="single_row row_<%= row %>">
-  <% 8.times do |column| %>
-    <div class="single_square" data-col="<%= column %>" data-row="<%= row %>">
-      <%=raw render_piece(current_game, column, row) %>
-    </div>
-  <%end%>
- </div>
-<%end%>
-</div>
+<%= render :partial => 'board', :locals => {:game => @game, :piece => nil } %>
