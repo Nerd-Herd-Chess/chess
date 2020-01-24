@@ -4,12 +4,10 @@
  <div class="single_row row_<%= row %>">
   <% 8.times do |column| %>
     <% p = get_piece(game, column, row) %>
-    <div class="single_square <%= p && piece && (p.id == piece.id) ? 'active-sq' : '' %>" data-col="<%= column %>" data-row="<%= row %>">
+    <div id="<%= [column, row].join('_') %>" onDrop="drop(event)" onDragOver="allowDrop(event)" class="single_square <%= p && piece && (p.id == piece.id) ? 'active-sq' : '' %>" data-col="<%= column %>" data-row="<%= row %>">
       
       <% if p then %>
-        <i onclick="window.location = '/chess_pieces/<%= p.id %>';" class="piece-color-<%= p.color %> fas fa-chess-<%= p.type.downcase%> " style='color: <%= p.color %>'></i>
-      <% else %>
-        <a href="?move=<%= "#{column},#{row}" %>">HERE</a>
+        <i onDragStart="dragStart(event)" draggable="true" id="piece_<%= p.id %>" class="chesspiece piece-color-<%= p.color %> fas fa-chess-<%= p.type.downcase%> " style='color: <%= p.color %>'></i>
       <% end %>
     </div>
   <%end%>
@@ -17,6 +15,49 @@
 <%end%>
 </div>
 <script type="text/javascript">
+window.dragsrc = null;
+window.dragged = null;
+window.dragging = false;
+function dragStart(event) {
+  event.dataTransfer.setData("Text", event.target.id);
+  let i = $("#"+event.target.id);
+  let parent = i.parent();
+  let x = parent.attr("data-col");
+  let y = parent.attr("data-row");
+  event.dataTransfer.setData("data-col", x);
+  event.dataTransfer.setData("data-row", y);
+  event.dataTransfer.setData("parent-id", parent.attr("id"));
+}
+function allowDrop(event) {
+  event.preventDefault();
+}
+function drop(event) {
+  allowDrop(event);
+  let data = event.dataTransfer.getData("Text");
+  event.target.appendChild(document.getElementById(data));
+  let div = $("#"+event.target.id);
+  let x = div.attr("data-col");
+  let y = div.attr("data-row");
+  let sx = event.dataTransfer.getData("data-col");
+  let sy = event.dataTransfer.getData("data-row");
+  let id = data.replace("piece_", "");
+  let params = {
+    pid: id,
+    sx: sx,
+    sy: sy,
+    ex: x,
+    ey: y
+  };
+  $.post('/chess_pieces/update/' + id, params, function (resp) {
+    console.log(resp);
+    if ( !resp.ok ) {
+      // return the piece to parent square
+      let parent = $('#' + event.dataTransfer.getData('parent-id'));
+      parent.append($('#'+data));
+    }
+  });
+  console.log(id,x,y,sx,sy);
+}
   function update_board() {
     let width = $('div.chessboard').width();
     $('div.single_square').each(function (i,el) {

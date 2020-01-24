@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root 'static_pages#index'
   resources :games
   resources :chess_pieces
+  post '/chess_pieces/update/:id' => 'chess_pieces#update'
 end
