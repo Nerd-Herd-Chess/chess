@@ -4,7 +4,7 @@ class Bishop < ChessPiece
         delta_y = (position_y - end_y).abs
         
         delta_y / delta_x == 1
-      end
+      
     
     
     end
