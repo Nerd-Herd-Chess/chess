@@ -2,6 +2,8 @@
 
 The Nerd-herd-chess/chess is a chess game Ruby on Rails application, an Agile Team Project developed under the guidance of Tyler Porter and George Heeres, software engineer and software developer. It is still a work in progress
 
+![Chess main page](/app/assets/images/chessmainpagescreenshot.png)
+
 
 ## Tools used during the Application Development include
 
